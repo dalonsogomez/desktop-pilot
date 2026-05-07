@@ -7,7 +7,7 @@
   <key>ProgramArguments</key>
   <array>
     <string>__NODE_PATH__</string>
-    <string>__INSTALL_DIR__/dist/src/server.js</string>
+    <string>__INSTALL_DIR__/dist/src/main.js</string>
   </array>
   <key>WorkingDirectory</key>
   <string>__INSTALL_DIR__</string>

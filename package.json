@@ -4,11 +4,13 @@
   "description": "Sidecar for desktop-pilot: agent loop + custom tools + recorder controller",
   "type": "module",
   "private": true,
-  "engines": { "node": ">=20.0.0" },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc-alias --resolve-full-paths",
     "dev": "tsx watch src/server.ts",
-    "start": "node dist/src/server.js",
+    "start": "node dist/src/main.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint src tests"
@@ -27,6 +29,7 @@
     "@typescript-eslint/eslint-plugin": "^8.15.0",
     "@typescript-eslint/parser": "^8.15.0",
     "eslint": "^9.15.0",
+    "tsc-alias": "^1.8.17",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "vitest": "^2.1.5"
