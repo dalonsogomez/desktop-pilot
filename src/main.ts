@@ -16,13 +16,16 @@ async function main(): Promise<void> {
   }
 
   const cfg = loadConfig(configPath);
-  const recorderBinary = `${process.env.DESKTOP_PILOT_INSTALL_DIR ?? home + "/desktop-pilot"}/bin/screen-recorder`;
+  const installDir = process.env.DESKTOP_PILOT_INSTALL_DIR ?? home + "/desktop-pilot";
+  const recorderBinary = `${installDir}/bin/screen-recorder`;
+  const guiActorBinary = `${installDir}/bin/gui-actor`;
   const applescriptAllowlistPath = `${home}/.config/desktop-pilot/applescript-allowlist.yaml`;
 
   const app = await buildServer({
     baseDir: cfg.storageDir,
     port: cfg.port,
     recorderBinary,
+    guiActorBinary,
     applescriptAllowlistPath,
     maxActionsPerSecond: cfg.rateLimitPerSecond,
     timeBudgetMs: cfg.timeBudgetSeconds * 1000,

@@ -1,5 +1,15 @@
 # Usage
 
+## Tool families
+
+Desktop Pilot exposes three tool families to the Anthropic model:
+
+- **AppleScript** (`exec_applescript`) — scripting for Finder, Safari, Mail, Notes, Calendar, etc.
+- **Shell** (`exec_shell`) — filesystem, git, npm, python, and any CLI tool.
+- **Computer** (`computer`) — native GUI control via `computer_use_20250124`: screenshot, click, drag, type, key, scroll, cursor_position.
+
+The agent prefers AppleScript over Shell over Computer. Computer use always takes a screenshot first to ground its actions in the current screen state.
+
 ## From Claude Code
 
 After install, copy the skill into your Claude Code skills directory:

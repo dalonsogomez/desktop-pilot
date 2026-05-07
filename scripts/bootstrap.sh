@@ -18,6 +18,7 @@ swift build -c release
 mkdir -p "$INSTALL_DIR/bin"
 cp .build/release/screen-recorder "$INSTALL_DIR/bin/"
 cp .build/release/panic-key "$INSTALL_DIR/bin/"
+cp .build/release/gui-actor "$INSTALL_DIR/bin/"
 
 # Prompt for API key
 echo ""
@@ -60,7 +61,7 @@ cat <<EOF
 === PERMISSION SETUP REQUIRED ===
 
 Open System Settings → Privacy & Security and grant:
-  1. Accessibility       → Terminal (or your shell), node, screen-recorder, panic-key
+  1. Accessibility       → Terminal (or your shell), node, screen-recorder, panic-key, gui-actor
   2. Screen Recording    → screen-recorder
   3. Input Monitoring    → panic-key
   4. Automation          → allow Terminal/your shell to control: Finder, Mail, Safari, Notes, etc.

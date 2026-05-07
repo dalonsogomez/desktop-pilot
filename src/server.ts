@@ -3,6 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { SessionStore } from "@/storage/sessions";
 import { TaskRunner } from "@/runner/task-runner";
 import { RecorderController } from "@/recorder/controller";
+import { GuiActorController } from "@/recorder/gui-actor-controller";
 import { runAgentLoop } from "@/agent/runner";
 import { SYSTEM_PROMPT } from "@/agent/system-prompt";
 import { ALL_TOOLS, dispatchTool } from "@/agent/tools";
@@ -18,6 +19,7 @@ export interface ServerOptions {
   baseDir: string;
   port: number;
   recorderBinary?: string;
+  guiActorBinary?: string;
   apiKey?: string;  // if not provided, reads from Keychain
   applescriptAllowlistPath?: string;
   maxActionsPerSecond?: number;
@@ -48,6 +50,12 @@ export async function buildServer(opts: ServerOptions): Promise<FastifyInstance>
       opts.applescriptAllowlistPath ??
       `${process.env.HOME}/.config/desktop-pilot/applescript-allowlist.yaml`;
     const appleScriptGuard = new AppleScriptGuard(allowlistPath);
+    const guiActor = new GuiActorController({
+      binaryPath:
+        opts.guiActorBinary ??
+        `${process.env.DESKTOP_PILOT_INSTALL_DIR ?? process.env.HOME + "/desktop-pilot"}/bin/gui-actor`,
+    });
+    guiActor.start();
     taskRunner = new TaskRunner({
       store,
       agentLoop: runAgentLoop,
@@ -59,7 +67,7 @@ export async function buildServer(opts: ServerOptions): Promise<FastifyInstance>
       client,
       tools: ALL_TOOLS,
       systemPrompt: SYSTEM_PROMPT,
-      toolDispatcher: (name, input) => dispatchTool(name, input, { appleScriptGuard }),
+      toolDispatcher: (name, input) => dispatchTool(name, input, { appleScriptGuard, guiActor }),
       maxActionsPerSecond: opts.maxActionsPerSecond ?? 3,
       timeBudgetMs: opts.timeBudgetMs ?? 5 * 60_000,
     });

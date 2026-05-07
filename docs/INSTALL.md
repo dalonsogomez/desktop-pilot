@@ -22,7 +22,7 @@ The installer will:
 
 1. Run preflight checks (macOS version, RAM, disk, Homebrew, Node, Swift, jq).
 2. Install npm dependencies and build TypeScript.
-3. Build Swift binaries (`screen-recorder`, `panic-key`).
+3. Build Swift binaries (`screen-recorder`, `panic-key`, `gui-actor`).
 4. Prompt for your Anthropic API key and store it in Keychain.
 5. Copy default config files to `~/.config/desktop-pilot/`.
 6. Generate and load the launchd plist.
@@ -30,7 +30,7 @@ The installer will:
 After install, **grant macOS permissions manually** (the installer cannot do this for you):
 
 - **System Settings → Privacy & Security:**
-  - **Accessibility:** Terminal, node, `screen-recorder`, `panic-key`
+  - **Accessibility:** Terminal, node, `screen-recorder`, `panic-key`, `gui-actor`
   - **Screen Recording:** `screen-recorder`
   - **Input Monitoring:** `panic-key`
   - **Automation:** allow Terminal to control Finder, Safari, Mail, etc.
