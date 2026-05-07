@@ -15,7 +15,7 @@ describe("runAgentLoop", () => {
       prompt: "say done",
       client: mockClient as any,
       tools: [],
-      onAction: vi.fn(),
+      onTool: vi.fn().mockResolvedValue("ok"),
       timeoutMs: 5000,
     });
     expect(result.completed).toBe(true);

@@ -17,6 +17,10 @@ describe("server e2e", () => {
       store,
       agentLoop: vi.fn().mockResolvedValue({ completed: true, reason: "end_turn", iterations: 0 }),
       recorderFactory: () => ({ start: vi.fn().mockResolvedValue(undefined), stop: vi.fn().mockResolvedValue(undefined), recordAction: vi.fn() }),
+      client: { messages: { create: vi.fn() } } as any,
+      tools: [],
+      systemPrompt: "test system prompt",
+      toolDispatcher: vi.fn().mockResolvedValue("{}"),
       maxActionsPerSecond: 3,
       timeBudgetMs: 5_000,
     });

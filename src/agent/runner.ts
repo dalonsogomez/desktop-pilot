@@ -4,7 +4,7 @@ export interface AgentLoopInput {
   prompt: string;
   client: Anthropic | { messages: { create: (...args: any[]) => Promise<any> } };
   tools: any[];
-  onAction: (action: { name: string; input: unknown }) => void | Promise<void>;
+  onTool: (action: { name: string; input: unknown }) => Promise<string>;  // returns the tool result content
   timeoutMs: number;
   systemPrompt?: string;
   model?: string;
@@ -39,11 +39,11 @@ export async function runAgentLoop(input: AgentLoopInput): Promise<AgentLoopResu
       const toolUses = response.content.filter((c: any) => c.type === "tool_use");
       const toolResults: any[] = [];
       for (const tu of toolUses) {
-        await input.onAction({ name: tu.name, input: tu.input });
+        const resultContent = await input.onTool({ name: tu.name, input: tu.input });
         toolResults.push({
           type: "tool_result",
           tool_use_id: tu.id,
-          content: "ok",
+          content: resultContent,
         });
       }
       messages.push({ role: "assistant", content: response.content });

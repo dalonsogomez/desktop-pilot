@@ -48,4 +48,11 @@ describe("SessionStore", () => {
   it("exists() returns false for a non-existent id", async () => {
     expect(await store.exists("00000000-0000-0000-0000-000000000000")).toBe(false);
   });
+
+  it("get returns metadata for a created session", async () => {
+    const sess = await store.create({ prompt: "fetch me" });
+    const got = await store.get(sess.id);
+    expect(got.id).toBe(sess.id);
+    expect(got.prompt).toBe("fetch me");
+  });
 });

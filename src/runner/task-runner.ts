@@ -1,5 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import Anthropic from "@anthropic-ai/sdk";
 import { SessionStore } from "@/storage/sessions";
 import { RateLimiter } from "@/runner/rate-limit";
 import type { AgentLoopInput, AgentLoopResult } from "@/agent/runner";
@@ -14,8 +15,16 @@ export interface TaskRunnerOptions {
   store: SessionStore;
   agentLoop: (input: AgentLoopInput) => Promise<AgentLoopResult>;
   recorderFactory: (sessionDir: string) => RecorderHandle;
+  client: Anthropic | { messages: { create: (...args: any[]) => Promise<any> } };
+  tools: any[];
+  systemPrompt: string;
+  toolDispatcher: (name: string, input: unknown) => Promise<string>;
   maxActionsPerSecond: number;
   timeBudgetMs: number;
+}
+
+function tryParseJson(s: string): unknown {
+  try { return JSON.parse(s); } catch { return s; }
 }
 
 export class TaskRunner {
@@ -25,34 +34,44 @@ export class TaskRunner {
 
   async runSession(sessionId: string): Promise<void> {
     const start = Date.now();
-    const dir = this.opts.store.sessionDir(sessionId);
     const rateLimiter = new RateLimiter({ maxPerSecond: this.opts.maxActionsPerSecond });
     let actionCount = 0;
 
-    const recorder = this.opts.recorderFactory(dir);
+    const session = await this.opts.store.get(sessionId);
+    const recorder = this.opts.recorderFactory(this.opts.store.sessionDir(sessionId));
     await recorder.start();
+
+    await this.opts.store.appendTranscript(sessionId, {
+      type: "prompt",
+      content: session.prompt,
+      timestamp: new Date().toISOString(),
+    });
 
     let result: AgentLoopResult;
     try {
       result = await this.opts.agentLoop({
-        prompt: "",
-        client: undefined as never,
-        tools: [],
+        prompt: session.prompt,
+        client: this.opts.client,
+        tools: this.opts.tools,
+        systemPrompt: this.opts.systemPrompt,
         timeoutMs: this.opts.timeBudgetMs,
-        onAction: async (action) => {
+        onTool: async (action) => {
           if (this.aborted.has(sessionId)) {
             throw new Error("aborted");
           }
           await rateLimiter.acquire();
           actionCount++;
           recorder.recordAction(actionCount, undefined);
+          const resultContent = await this.opts.toolDispatcher(action.name, action.input);
           await this.opts.store.appendTranscript(sessionId, {
-            type: "action",
+            type: "tool",
             index: actionCount,
             name: action.name,
             input: action.input,
+            result: tryParseJson(resultContent),
             timestamp: new Date().toISOString(),
           });
+          return resultContent;
         },
       });
     } catch (err) {
@@ -74,7 +93,7 @@ export class TaskRunner {
       durationMs: Date.now() - start,
       finishedAt: new Date().toISOString(),
     };
-    await writeFile(join(dir, "metrics.json"), JSON.stringify(metrics, null, 2));
+    await writeFile(join(this.opts.store.sessionDir(sessionId), "metrics.json"), JSON.stringify(metrics, null, 2));
   }
 
   abort(sessionId: string): void {

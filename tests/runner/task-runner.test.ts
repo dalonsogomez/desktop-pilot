@@ -9,6 +9,15 @@ describe("TaskRunner", () => {
   let baseDir: string;
   let store: SessionStore;
 
+  const mockRecorderFactory = () => ({
+    start: vi.fn().mockResolvedValue(undefined),
+    stop: vi.fn().mockResolvedValue(undefined),
+    recordAction: vi.fn(),
+  });
+
+  const mockClient = { messages: { create: vi.fn() } };
+  const mockToolDispatcher = vi.fn().mockResolvedValue(JSON.stringify({ stdout: "ok", exit_code: 0 }));
+
   beforeEach(() => {
     baseDir = mkdtempSync(join(tmpdir(), "dp-tr-"));
     store = new SessionStore(baseDir);
@@ -19,7 +28,11 @@ describe("TaskRunner", () => {
     const runner = new TaskRunner({
       store,
       agentLoop: vi.fn().mockResolvedValue({ completed: true, reason: "end_turn", iterations: 2 }),
-      recorderFactory: () => ({ start: vi.fn().mockResolvedValue(undefined), stop: vi.fn().mockResolvedValue(undefined), recordAction: vi.fn() }),
+      recorderFactory: mockRecorderFactory,
+      client: mockClient as any,
+      tools: [],
+      systemPrompt: "you are a test agent",
+      toolDispatcher: mockToolDispatcher,
       maxActionsPerSecond: 3,
       timeBudgetMs: 60_000,
     });
@@ -37,7 +50,11 @@ describe("TaskRunner", () => {
       agentLoop: () => new Promise((resolve) => {
         setTimeout(() => resolve({ completed: false, reason: "aborted", iterations: 1 }), 100);
       }),
-      recorderFactory: () => ({ start: vi.fn().mockResolvedValue(undefined), stop: vi.fn().mockResolvedValue(undefined), recordAction: vi.fn() }),
+      recorderFactory: mockRecorderFactory,
+      client: mockClient as any,
+      tools: [],
+      systemPrompt: "you are a test agent",
+      toolDispatcher: mockToolDispatcher,
       maxActionsPerSecond: 3,
       timeBudgetMs: 60_000,
     });
@@ -47,5 +64,26 @@ describe("TaskRunner", () => {
     const metrics = JSON.parse(readFileSync(join(baseDir, sess.id, "metrics.json"), "utf8"));
     expect(metrics.completed).toBe(false);
     expect(metrics.reason).toBe("aborted");
+  });
+
+  it("writes prompt to transcript before agent runs", async () => {
+    const sess = await store.create({ prompt: "transcript prompt test" });
+    const runner = new TaskRunner({
+      store,
+      agentLoop: vi.fn().mockResolvedValue({ completed: true, reason: "end_turn", iterations: 0 }),
+      recorderFactory: mockRecorderFactory,
+      client: mockClient as any,
+      tools: [],
+      systemPrompt: "you are a test agent",
+      toolDispatcher: mockToolDispatcher,
+      maxActionsPerSecond: 3,
+      timeBudgetMs: 60_000,
+    });
+    await runner.runSession(sess.id);
+    const lines = readFileSync(join(baseDir, sess.id, "transcript.jsonl"), "utf8")
+      .trim().split("\n").filter(Boolean);
+    const first = JSON.parse(lines[0]);
+    expect(first.type).toBe("prompt");
+    expect(first.content).toBe("transcript prompt test");
   });
 });

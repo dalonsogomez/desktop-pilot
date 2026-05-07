@@ -54,4 +54,9 @@ export class SessionStore {
       return false;
     }
   }
+
+  async get(id: string): Promise<SessionMetadata> {
+    const raw = await readFile(join(this.baseDir, id, "metadata.json"), "utf8");
+    return JSON.parse(raw);
+  }
 }
