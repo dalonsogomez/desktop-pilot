@@ -3,3 +3,11 @@ timeBudgetSeconds: 300
 rateLimitPerSecond: 3
 shortcut: "Ctrl+Opt+Cmd+P"
 videoRetentionDays: 30
+# Backend: "anthropic" (default, requires API key) or "ui-tars" (local Ollama, requires model pulled)
+backend: anthropic
+# Ollama settings (only used if backend: ui-tars)
+ollamaUrl: "http://localhost:11434"
+ollamaModel: "0000/ui-tars-1.5-7b"
+# Display resolution (auto-detected on first session if not set)
+displayWidth: 1920
+displayHeight: 1080

@@ -1,5 +1,25 @@
 # Usage
 
+## Backend selector
+
+Desktop Pilot supports two AI backends, selectable via `~/.config/desktop-pilot/config.yaml`:
+
+| `backend` value | Description |
+|---|---|
+| `anthropic` (default) | Uses Anthropic's cloud API (claude-sonnet-4-6). Requires API key in Keychain. |
+| `ui-tars` | Uses UI-TARS-1.5-7B running locally via Ollama. No API key required. Requires `ollama pull 0000/ui-tars-1.5-7b`. |
+
+Example config to switch to local UI-TARS:
+```yaml
+backend: ui-tars
+ollamaUrl: "http://localhost:11434"
+ollamaModel: "0000/ui-tars-1.5-7b"
+displayWidth: 1920
+displayHeight: 1080
+```
+
+See `docs/INSTALL.md` for full UI-TARS setup instructions.
+
 ## Tool families
 
 Desktop Pilot exposes three tool families to the Anthropic model:

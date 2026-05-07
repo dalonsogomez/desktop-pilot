@@ -4,6 +4,9 @@ import Anthropic from "@anthropic-ai/sdk";
 import { SessionStore } from "@/storage/sessions";
 import { RateLimiter } from "@/runner/rate-limit";
 import type { AgentLoopInput, AgentLoopResult } from "@/agent/runner";
+import type { OllamaClient } from "@/agent/ollama-client";
+import { runUiTarsLoop, type UiTarsLoopResult } from "@/agent/ui-tars-runner";
+import { dispatchUiTarsAction, type ToolDispatchContext } from "@/agent/tools";
 
 export interface RecorderHandle {
   start(): Promise<void>;
@@ -21,6 +24,14 @@ export interface TaskRunnerOptions {
   toolDispatcher: (name: string, input: unknown) => Promise<string>;
   maxActionsPerSecond: number;
   timeBudgetMs: number;
+  // UI-TARS backend options
+  backend?: "anthropic" | "ui-tars";
+  ollamaClient?: OllamaClient;
+  ollamaModel?: string;
+  displayWidth?: number;
+  displayHeight?: number;
+  toolContext?: ToolDispatchContext;
+  takeScreenshot?: () => Promise<string>;
 }
 
 function tryParseJson(s: string): unknown {
@@ -47,33 +58,68 @@ export class TaskRunner {
       timestamp: new Date().toISOString(),
     });
 
-    let result: AgentLoopResult;
+    let result: AgentLoopResult | UiTarsLoopResult;
     try {
-      result = await this.opts.agentLoop({
-        prompt: session.prompt,
-        client: this.opts.client,
-        tools: this.opts.tools,
-        systemPrompt: this.opts.systemPrompt,
-        timeoutMs: this.opts.timeBudgetMs,
-        onTool: async (action) => {
-          if (this.aborted.has(sessionId)) {
-            throw new Error("aborted");
-          }
-          await rateLimiter.acquire();
-          actionCount++;
-          recorder.recordAction(actionCount, undefined);
-          const resultContent = await this.opts.toolDispatcher(action.name, action.input);
-          await this.opts.store.appendTranscript(sessionId, {
-            type: "tool",
-            index: actionCount,
-            name: action.name,
-            input: action.input,
-            result: tryParseJson(resultContent),
-            timestamp: new Date().toISOString(),
-          });
-          return resultContent;
-        },
-      });
+      if (this.opts.backend === "ui-tars") {
+        if (!this.opts.ollamaClient) throw new Error("ollamaClient is required for ui-tars backend");
+        if (!this.opts.toolContext) throw new Error("toolContext is required for ui-tars backend");
+        if (!this.opts.takeScreenshot) throw new Error("takeScreenshot is required for ui-tars backend");
+        const toolContext = this.opts.toolContext;
+        result = await runUiTarsLoop({
+          prompt: session.prompt,
+          client: this.opts.ollamaClient,
+          model: this.opts.ollamaModel ?? "0000/ui-tars-1.5-7b",
+          displayWidth: this.opts.displayWidth ?? 1920,
+          displayHeight: this.opts.displayHeight ?? 1080,
+          takeScreenshot: this.opts.takeScreenshot,
+          onAction: async (action, pixelCoords) => {
+            if (this.aborted.has(sessionId)) {
+              throw new Error("aborted");
+            }
+            await rateLimiter.acquire();
+            actionCount++;
+            recorder.recordAction(actionCount, undefined);
+            const actionResult = await dispatchUiTarsAction(action, pixelCoords, toolContext);
+            await this.opts.store.appendTranscript(sessionId, {
+              type: "ui-tars-action",
+              index: actionCount,
+              action,
+              pixelCoords,
+              result: actionResult,
+              timestamp: new Date().toISOString(),
+            });
+            return actionResult;
+          },
+          timeoutMs: this.opts.timeBudgetMs,
+          maxTurns: 50,
+        });
+      } else {
+        result = await this.opts.agentLoop({
+          prompt: session.prompt,
+          client: this.opts.client,
+          tools: this.opts.tools,
+          systemPrompt: this.opts.systemPrompt,
+          timeoutMs: this.opts.timeBudgetMs,
+          onTool: async (action) => {
+            if (this.aborted.has(sessionId)) {
+              throw new Error("aborted");
+            }
+            await rateLimiter.acquire();
+            actionCount++;
+            recorder.recordAction(actionCount, undefined);
+            const resultContent = await this.opts.toolDispatcher(action.name, action.input);
+            await this.opts.store.appendTranscript(sessionId, {
+              type: "tool",
+              index: actionCount,
+              name: action.name,
+              input: action.input,
+              result: tryParseJson(resultContent),
+              timestamp: new Date().toISOString(),
+            });
+            return resultContent;
+          },
+        });
+      }
     } catch (err) {
       result = {
         completed: false,

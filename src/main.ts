@@ -29,6 +29,11 @@ async function main(): Promise<void> {
     applescriptAllowlistPath,
     maxActionsPerSecond: cfg.rateLimitPerSecond,
     timeBudgetMs: cfg.timeBudgetSeconds * 1000,
+    backend: cfg.backend,
+    ollamaUrl: cfg.ollamaUrl,
+    ollamaModel: cfg.ollamaModel,
+    displayWidth: cfg.displayWidth,
+    displayHeight: cfg.displayHeight,
   });
 
   console.log(`desktop-pilot-bridge listening on http://127.0.0.1:${cfg.port}`);

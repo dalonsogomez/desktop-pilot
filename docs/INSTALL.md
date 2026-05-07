@@ -41,6 +41,37 @@ Verify with:
 bash scripts/smoke-test.sh
 ```
 
+## Optional: UI-TARS local backend
+
+Instead of Anthropic's cloud API, you can run the UI-TARS-1.5-7B model locally via Ollama.
+
+### Prerequisites
+
+- [Ollama](https://ollama.com) installed and running
+- At least 16 GB RAM (model requires ~8 GB VRAM or system RAM)
+
+### Setup
+
+```bash
+# Pull the model
+ollama pull 0000/ui-tars-1.5-7b
+
+# Verify it is available
+ollama list
+```
+
+Then update `~/.config/desktop-pilot/config.yaml`:
+
+```yaml
+backend: ui-tars
+ollamaUrl: "http://localhost:11434"
+ollamaModel: "0000/ui-tars-1.5-7b"
+displayWidth: 1920   # set to your actual display width
+displayHeight: 1080  # set to your actual display height
+```
+
+Restart the sidecar for the change to take effect. No Anthropic API key is needed when using this backend.
+
 ## Manual launchd controls
 
 ```bash

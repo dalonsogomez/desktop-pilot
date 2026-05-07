@@ -2,7 +2,7 @@ import { describe, expect, it, vi, beforeAll } from "vitest";
 import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { dispatchTool, type ToolDispatchContext } from "@/agent/tools";
+import { dispatchTool, dispatchUiTarsAction, type ToolDispatchContext } from "@/agent/tools";
 import { AppleScriptGuard } from "@/guards/applescript-checks";
 import type { GuiActorController } from "@/recorder/gui-actor-controller";
 
@@ -166,5 +166,124 @@ describe("dispatchTool — computer actions", () => {
     const parsed = JSON.parse(result);
     expect(parsed.error).toBe("unknown_computer_action");
     expect(parsed.action).toBe("teleport");
+  });
+});
+
+describe("dispatchUiTarsAction", () => {
+  it("click sends click left command with pixel coords", async () => {
+    const guiActor = makeFakeGuiActor();
+    const localCtx: ToolDispatchContext = { appleScriptGuard: guard, guiActor };
+    const result = await dispatchUiTarsAction(
+      { type: "click", startBox: [500, 500] },
+      { start: [960, 540] },
+      localCtx
+    );
+    expect(result).toBe("clicked");
+    expect(guiActor.send).toHaveBeenCalledWith("click left 960 540");
+  });
+
+  it("left_double sends click double command", async () => {
+    const guiActor = makeFakeGuiActor();
+    const localCtx: ToolDispatchContext = { appleScriptGuard: guard, guiActor };
+    const result = await dispatchUiTarsAction(
+      { type: "left_double", startBox: [100, 200] },
+      { start: [192, 216] },
+      localCtx
+    );
+    expect(result).toBe("double clicked");
+    expect(guiActor.send).toHaveBeenCalledWith("click double 192 216");
+  });
+
+  it("right_single sends click right command", async () => {
+    const guiActor = makeFakeGuiActor();
+    const localCtx: ToolDispatchContext = { appleScriptGuard: guard, guiActor };
+    const result = await dispatchUiTarsAction(
+      { type: "right_single", startBox: [200, 300] },
+      { start: [384, 324] },
+      localCtx
+    );
+    expect(result).toBe("right clicked");
+    expect(guiActor.send).toHaveBeenCalledWith("click right 384 324");
+  });
+
+  it("drag sends drag command with start and end coords", async () => {
+    const guiActor = makeFakeGuiActor();
+    const localCtx: ToolDispatchContext = { appleScriptGuard: guard, guiActor };
+    const result = await dispatchUiTarsAction(
+      { type: "drag", startBox: [100, 100], endBox: [500, 500] },
+      { start: [192, 108], end: [960, 540] },
+      localCtx
+    );
+    expect(result).toBe("dragged");
+    expect(guiActor.send).toHaveBeenCalledWith("drag 192 108 960 540");
+  });
+
+  it("type sends type command", async () => {
+    const guiActor = makeFakeGuiActor();
+    const localCtx: ToolDispatchContext = { appleScriptGuard: guard, guiActor };
+    const result = await dispatchUiTarsAction(
+      { type: "type", content: "hello world" },
+      {},
+      localCtx
+    );
+    expect(result).toBe("typed");
+    expect(guiActor.send).toHaveBeenCalledWith("type hello world");
+  });
+
+  it("hotkey converts space-separated keys to plus-separated", async () => {
+    const guiActor = makeFakeGuiActor();
+    const localCtx: ToolDispatchContext = { appleScriptGuard: guard, guiActor };
+    const result = await dispatchUiTarsAction(
+      { type: "hotkey", key: "cmd c" },
+      {},
+      localCtx
+    );
+    expect(result).toBe("hotkey sent");
+    expect(guiActor.send).toHaveBeenCalledWith("hotkey cmd+c");
+  });
+
+  it("hotkey with three keys", async () => {
+    const guiActor = makeFakeGuiActor();
+    const localCtx: ToolDispatchContext = { appleScriptGuard: guard, guiActor };
+    await dispatchUiTarsAction({ type: "hotkey", key: "ctrl shift t" }, {}, localCtx);
+    expect(guiActor.send).toHaveBeenCalledWith("hotkey ctrl+shift+t");
+  });
+
+  it("scroll sends scroll command with direction and default amount", async () => {
+    const guiActor = makeFakeGuiActor();
+    const localCtx: ToolDispatchContext = { appleScriptGuard: guard, guiActor };
+    const result = await dispatchUiTarsAction(
+      { type: "scroll", startBox: [500, 500], direction: "down" },
+      { start: [960, 540] },
+      localCtx
+    );
+    expect(result).toBe("scrolled");
+    expect(guiActor.send).toHaveBeenCalledWith("scroll 960 540 down 3");
+  });
+
+  it("wait resolves after delay and returns 'waited'", async () => {
+    const guiActor = makeFakeGuiActor();
+    const localCtx: ToolDispatchContext = { appleScriptGuard: guard, guiActor };
+    const result = await dispatchUiTarsAction({ type: "wait" }, {}, localCtx);
+    expect(result).toBe("waited");
+    expect(guiActor.send).not.toHaveBeenCalled();
+  });
+
+  it("finished returns content string", async () => {
+    const guiActor = makeFakeGuiActor();
+    const localCtx: ToolDispatchContext = { appleScriptGuard: guard, guiActor };
+    const result = await dispatchUiTarsAction(
+      { type: "finished", content: "task complete" },
+      {},
+      localCtx
+    );
+    expect(result).toBe("task complete");
+  });
+
+  it("finished with no content returns default message", async () => {
+    const guiActor = makeFakeGuiActor();
+    const localCtx: ToolDispatchContext = { appleScriptGuard: guard, guiActor };
+    const result = await dispatchUiTarsAction({ type: "finished" }, {}, localCtx);
+    expect(result).toBe("task complete");
   });
 });

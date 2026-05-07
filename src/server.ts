@@ -9,11 +9,16 @@ import { SYSTEM_PROMPT } from "@/agent/system-prompt";
 import { ALL_TOOLS, dispatchTool } from "@/agent/tools";
 import { AppleScriptGuard } from "@/guards/applescript-checks";
 import { getSecret } from "@/storage/keychain";
+import { OllamaClient } from "@/agent/ollama-client";
 import { taskRoute } from "@/routes/task";
 import { statusRoute } from "@/routes/status";
 import { transcriptRoute } from "@/routes/transcript";
 import { abortRoute } from "@/routes/abort";
 import { metricsRoute } from "@/routes/metrics";
+import { mkdir, readFile } from "node:fs/promises";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
+import { v4 as uuid } from "uuid";
 
 export interface ServerOptions {
   baseDir: string;
@@ -25,6 +30,12 @@ export interface ServerOptions {
   maxActionsPerSecond?: number;
   timeBudgetMs?: number;
   taskRunnerOverride?: TaskRunner;  // for tests
+  // Backend selector
+  backend?: "anthropic" | "ui-tars";
+  ollamaUrl?: string;
+  ollamaModel?: string;
+  displayWidth?: number;
+  displayHeight?: number;
 }
 
 export async function buildServer(opts: ServerOptions): Promise<FastifyInstance> {
@@ -35,17 +46,6 @@ export async function buildServer(opts: ServerOptions): Promise<FastifyInstance>
   if (opts.taskRunnerOverride) {
     taskRunner = opts.taskRunnerOverride;
   } else {
-    let apiKey = opts.apiKey;
-    if (!apiKey) {
-      try {
-        apiKey = await getSecret("ai.desktop-pilot.anthropic", "default");
-      } catch {
-        throw new Error(
-          "No Anthropic API key found in Keychain (ai.desktop-pilot.anthropic / default). Run bootstrap.sh or pass apiKey option."
-        );
-      }
-    }
-    const client = new Anthropic({ apiKey });
     const allowlistPath =
       opts.applescriptAllowlistPath ??
       `${process.env.HOME}/.config/desktop-pilot/applescript-allowlist.yaml`;
@@ -56,21 +56,73 @@ export async function buildServer(opts: ServerOptions): Promise<FastifyInstance>
         `${process.env.DESKTOP_PILOT_INSTALL_DIR ?? process.env.HOME + "/desktop-pilot"}/bin/gui-actor`,
     });
     guiActor.start();
-    taskRunner = new TaskRunner({
-      store,
-      agentLoop: runAgentLoop,
-      recorderFactory: (sessionDir) =>
-        new RecorderController({
-          binaryPath: opts.recorderBinary ?? "/usr/local/bin/screen-recorder",
-          sessionDir,
-        }),
-      client,
-      tools: ALL_TOOLS,
-      systemPrompt: SYSTEM_PROMPT,
-      toolDispatcher: (name, input) => dispatchTool(name, input, { appleScriptGuard, guiActor }),
-      maxActionsPerSecond: opts.maxActionsPerSecond ?? 3,
-      timeBudgetMs: opts.timeBudgetMs ?? 5 * 60_000,
-    });
+
+    const toolContext = { appleScriptGuard, guiActor };
+
+    if (opts.backend === "ui-tars") {
+      const ollamaClient = new OllamaClient(opts.ollamaUrl ?? "http://localhost:11434");
+      const displayWidth = opts.displayWidth ?? 1920;
+      const displayHeight = opts.displayHeight ?? 1080;
+
+      taskRunner = new TaskRunner({
+        store,
+        agentLoop: runAgentLoop,
+        recorderFactory: (sessionDir) =>
+          new RecorderController({
+            binaryPath: opts.recorderBinary ?? "/usr/local/bin/screen-recorder",
+            sessionDir,
+          }),
+        client: {} as any,  // not used for ui-tars backend
+        tools: [],
+        systemPrompt: "",
+        toolDispatcher: async () => "",  // not used for ui-tars backend
+        maxActionsPerSecond: opts.maxActionsPerSecond ?? 3,
+        timeBudgetMs: opts.timeBudgetMs ?? 5 * 60_000,
+        backend: "ui-tars",
+        ollamaClient,
+        ollamaModel: opts.ollamaModel ?? "0000/ui-tars-1.5-7b",
+        displayWidth,
+        displayHeight,
+        toolContext,
+        takeScreenshot: async () => {
+          const dir = join(tmpdir(), "desktop-pilot-screenshots");
+          await mkdir(dir, { recursive: true });
+          const tmpPath = join(dir, `ss-${uuid()}.png`);
+          await guiActor.send(`screenshot ${tmpPath}`);
+          const data = await readFile(tmpPath);
+          return data.toString("base64");
+        },
+      });
+    } else {
+      let apiKey = opts.apiKey;
+      if (!apiKey) {
+        try {
+          apiKey = await getSecret("ai.desktop-pilot.anthropic", "default");
+        } catch {
+          throw new Error(
+            "No Anthropic API key found in Keychain (ai.desktop-pilot.anthropic / default). Run bootstrap.sh or pass apiKey option."
+          );
+        }
+      }
+      const client = new Anthropic({ apiKey });
+
+      taskRunner = new TaskRunner({
+        store,
+        agentLoop: runAgentLoop,
+        recorderFactory: (sessionDir) =>
+          new RecorderController({
+            binaryPath: opts.recorderBinary ?? "/usr/local/bin/screen-recorder",
+            sessionDir,
+          }),
+        client,
+        tools: ALL_TOOLS,
+        systemPrompt: SYSTEM_PROMPT,
+        toolDispatcher: (name, input) => dispatchTool(name, input, toolContext),
+        maxActionsPerSecond: opts.maxActionsPerSecond ?? 3,
+        timeBudgetMs: opts.timeBudgetMs ?? 5 * 60_000,
+        backend: "anthropic",
+      });
+    }
   }
 
   app.decorate("store", store);

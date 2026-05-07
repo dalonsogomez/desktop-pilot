@@ -8,6 +8,7 @@ import { execShell, ExecShellError } from "@/tools/exec-shell";
 import { execAppleScript, ExecAppleScriptError } from "@/tools/exec-applescript";
 import type { AppleScriptGuard } from "@/guards/applescript-checks";
 import type { GuiActorController } from "@/recorder/gui-actor-controller";
+import type { UiTarsAction } from "@/agent/ui-tars-parser";
 
 export const SHELL_TOOL: Tool = {
   name: "exec_shell",
@@ -166,4 +167,44 @@ export async function dispatchTool(
   }
 
   return JSON.stringify({ error: "unknown_tool", name });
+}
+
+export async function dispatchUiTarsAction(
+  action: UiTarsAction,
+  pixelCoords: { start?: [number, number]; end?: [number, number] },
+  ctx: ToolDispatchContext
+): Promise<string> {
+  switch (action.type) {
+    case "click":
+      await ctx.guiActor.send(`click left ${pixelCoords.start![0]} ${pixelCoords.start![1]}`);
+      return "clicked";
+    case "left_double":
+      await ctx.guiActor.send(`click double ${pixelCoords.start![0]} ${pixelCoords.start![1]}`);
+      return "double clicked";
+    case "right_single":
+      await ctx.guiActor.send(`click right ${pixelCoords.start![0]} ${pixelCoords.start![1]}`);
+      return "right clicked";
+    case "drag":
+      await ctx.guiActor.send(`drag ${pixelCoords.start![0]} ${pixelCoords.start![1]} ${pixelCoords.end![0]} ${pixelCoords.end![1]}`);
+      return "dragged";
+    case "type":
+      await ctx.guiActor.send(`type ${action.content ?? ""}`);
+      return "typed";
+    case "hotkey":
+      // UI-TARS hotkeys are space-separated; gui-actor expects + separated
+      await ctx.guiActor.send(`hotkey ${(action.key ?? "").replace(/\s+/g, "+")}`);
+      return "hotkey sent";
+    case "scroll": {
+      const amount = 3;  // default 3 lines
+      await ctx.guiActor.send(`scroll ${pixelCoords.start![0]} ${pixelCoords.start![1]} ${action.direction ?? "down"} ${amount}`);
+      return "scrolled";
+    }
+    case "wait":
+      await new Promise(r => setTimeout(r, 500));
+      return "waited";
+    case "finished":
+      return action.content ?? "task complete";
+    default:
+      return JSON.stringify({ error: "unknown_ui_tars_action", action });
+  }
 }

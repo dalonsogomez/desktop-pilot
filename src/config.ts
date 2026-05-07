@@ -8,6 +8,11 @@ export interface Config {
   shortcut: string;
   videoRetentionDays: number;
   storageDir: string;
+  backend: "anthropic" | "ui-tars";
+  ollamaUrl: string;
+  ollamaModel: string;
+  displayWidth: number;
+  displayHeight: number;
 }
 
 function defaultStorageDir(): string {
@@ -25,6 +30,11 @@ const DEFAULTS: Config = {
   shortcut: "Ctrl+Opt+Cmd+P",
   videoRetentionDays: 30,
   storageDir: defaultStorageDir(),
+  backend: "anthropic",
+  ollamaUrl: "http://localhost:11434",
+  ollamaModel: "0000/ui-tars-1.5-7b",
+  displayWidth: 1920,
+  displayHeight: 1080,
 };
 
 export function loadConfig(path: string): Config {
