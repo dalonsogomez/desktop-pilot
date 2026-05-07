@@ -1,0 +1,24 @@
+filters:
+  and:
+    - tipo == "sesion-agente"
+    - file.path.startsWith("wiki/sesiones-desktop-pilot")
+views:
+  - type: table
+    name: "Todas las sesiones"
+    order: ["fecha", "hora", "tarea", "duracion_segundos", "exito", "coste_usd"]
+    sort:
+      - field: fecha
+        direction: desc
+  - type: cards
+    name: "Últimas 10"
+    limit: 10
+    sort:
+      - field: fecha
+        direction: desc
+  - type: table
+    name: "Resumen mensual"
+    groupBy: "fecha.format('YYYY-MM')"
+    aggregate:
+      acciones_total: sum
+      coste_usd: sum
+      exito: count
