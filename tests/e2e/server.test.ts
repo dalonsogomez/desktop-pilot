@@ -1,8 +1,10 @@
-import { describe, expect, it, beforeAll, afterAll } from "vitest";
+import { describe, expect, it, beforeAll, afterAll, vi } from "vitest";
 import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { buildServer } from "@/server";
+import { TaskRunner } from "@/runner/task-runner";
+import { SessionStore } from "@/storage/sessions";
 import type { FastifyInstance } from "fastify";
 
 describe("server e2e", () => {
@@ -10,7 +12,15 @@ describe("server e2e", () => {
 
   beforeAll(async () => {
     const baseDir = mkdtempSync(join(tmpdir(), "dp-srv-"));
-    app = await buildServer({ baseDir, port: 0 });
+    const store = new SessionStore(baseDir);
+    const taskRunner = new TaskRunner({
+      store,
+      agentLoop: vi.fn().mockResolvedValue({ completed: true, reason: "end_turn", iterations: 0 }),
+      recorder: { start: vi.fn().mockResolvedValue(undefined), stop: vi.fn().mockResolvedValue(undefined), recordAction: vi.fn() },
+      maxActionsPerSecond: 3,
+      timeBudgetMs: 5_000,
+    });
+    app = await buildServer({ baseDir, port: 0, taskRunnerOverride: taskRunner });
   });
 
   afterAll(async () => {

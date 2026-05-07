@@ -6,6 +6,10 @@ export async function taskRoute(app: FastifyInstance): Promise<void> {
       return reply.status(400).send({ error: "prompt required" });
     }
     const session = await app.store.create({ prompt: req.body.prompt });
+    // Dispatch in background — don't await
+    app.taskRunner.runSession(session.id).catch((err) => {
+      app.log.error({ err, sessionId: session.id }, "runSession failed");
+    });
     return reply.status(202).send({ id: session.id, status: "queued" });
   });
 }
