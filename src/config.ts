@@ -10,13 +10,21 @@ export interface Config {
   storageDir: string;
 }
 
+function defaultStorageDir(): string {
+  const home = process.env.HOME;
+  if (!home) {
+    throw new Error("HOME environment variable is not set; cannot compute default storageDir");
+  }
+  return `${home}/Library/Application Support/DesktopPilot`;
+}
+
 const DEFAULTS: Config = {
   port: 9991,
   timeBudgetSeconds: 300,
   rateLimitPerSecond: 3,
   shortcut: "Ctrl+Opt+Cmd+P",
   videoRetentionDays: 30,
-  storageDir: `${process.env.HOME}/Library/Application Support/DesktopPilot`,
+  storageDir: defaultStorageDir(),
 };
 
 export function loadConfig(path: string): Config {
