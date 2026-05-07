@@ -1,0 +1,26 @@
+apps:
+  - Finder
+  - Safari
+  - Chrome
+  - Firefox
+  - Mail
+  - Notes
+  - Calendar
+  - Reminders
+  - TextEdit
+  - Pages
+  - Numbers
+  - Keynote
+  - Preview
+  - Photos
+  - Music
+  - Terminal
+  - iTerm2
+  - Visual Studio Code
+  - Cursor
+  - Obsidian
+  - Slack
+  - Figma
+  - Microsoft Excel
+  - Microsoft Word
+  - Microsoft PowerPoint
