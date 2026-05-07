@@ -1,0 +1,666 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorderPackageTests.xctest/Contents/MacOS/screen-recorderPackageTests",
+      "packagePath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift",
+      "productName" : "screen-recorderPackageTests"
+    }
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.RecorderTests-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/RecorderTests.build/sources",
+      "importPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/Tests/RecorderTests/RecorderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/swift-version-26F32DBC21543946.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorder"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/RecorderTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "RecorderTests",
+      "moduleOutputPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules/RecorderTests.swiftmodule",
+      "objects" : [
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/RecorderTests.build/RecorderTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j18",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "recorder_swift"
+      ],
+      "outputFileMapPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/RecorderTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/RecorderTests.build/RecorderTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules/RecorderTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/Tests/RecorderTests/RecorderTests.swift"
+      ],
+      "tempsPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/RecorderTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.screen-recorder-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorder.build/sources",
+      "importPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/Sources/screen-recorder/main.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/swift-version-26F32DBC21543946.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorder.build/sources"
+        }
+      ],
+      "isLibrary" : false,
+      "moduleName" : "screen_recorder",
+      "moduleOutputPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules/screen_recorder.swiftmodule",
+      "objects" : [
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorder.build/main.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j18",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-Xfrontend",
+        "-entry-point-function-name",
+        "-Xfrontend",
+        "screen_recorder_main",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "recorder_swift"
+      ],
+      "outputFileMapPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorder.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorder.build/main.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules/screen_recorder.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/Sources/screen-recorder/main.swift"
+      ],
+      "tempsPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorder.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.screen-recorderPackageTests-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorderPackageTests.build/sources",
+      "importPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorderPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/swift-version-26F32DBC21543946.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules/RecorderTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorderPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "screen_recorderPackageTests",
+      "moduleOutputPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules/screen_recorderPackageTests.swiftmodule",
+      "objects" : [
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorderPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j18",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorderPackageTests.build/include/screen-recorderPackageTests-Swift.h",
+        "-plugin-path",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "recorder_swift"
+      ],
+      "outputFileMapPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorderPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorderPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules/screen_recorderPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorderPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorderPackageTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "RecorderTests" : [
+      "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "RecorderTests",
+      "-package-name",
+      "recorder_swift",
+      "-c",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/Tests/RecorderTests/RecorderTests.swift",
+      "-I",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j18",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "recorder_swift",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "screen_recorder" : [
+      "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "screen_recorder",
+      "-package-name",
+      "recorder_swift",
+      "-c",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/Sources/screen-recorder/main.swift",
+      "-I",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j18",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-Xfrontend",
+      "-entry-point-function-name",
+      "-Xfrontend",
+      "screen_recorder_main",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "recorder_swift",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "screen_recorderPackageTests" : [
+      "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "screen_recorderPackageTests",
+      "-package-name",
+      "recorder_swift",
+      "-c",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorderPackageTests.derived/runner.swift",
+      "-I",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j18",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorderPackageTests.build/include/screen-recorderPackageTests-Swift.h",
+      "-plugin-path",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "recorder_swift",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "RecorderTests" : [
+      "screen_recorder"
+    ],
+    "screen_recorder" : [
+
+    ],
+    "screen_recorderPackageTests" : [
+      "RecorderTests",
+      "screen_recorder"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+    "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorderPackageTests.derived/runner.swift" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorderPackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/RecorderTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/Tests/RecorderTests/RecorderTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/RecorderTests.build/sources"
+    },
+    "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorder-entitlement.plist" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<entitlement-plist>"
+        },
+        {
+          "kind" : "virtual",
+          "name" : "<com.apple.security.get-task-allow>"
+        }
+      ],
+      "outputFilePath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorder-entitlement.plist"
+    },
+    "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorder.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorder.build/main.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorder.product/Objects.LinkFileList"
+    },
+    "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorderPackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/RecorderTests.build/RecorderTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorder.build/main.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorderPackageTests.build/runner.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorderPackageTests.product/Objects.LinkFileList"
+    },
+    "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorder.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/Sources/screen-recorder/main.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorder.build/sources"
+    },
+    "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorderPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorderPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen_recorderPackageTests.build/sources"
+    },
+    "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/swift-version-26F32DBC21543946.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode 26.2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/swift-version-26F32DBC21543946.txt"
+    }
+  }
+}

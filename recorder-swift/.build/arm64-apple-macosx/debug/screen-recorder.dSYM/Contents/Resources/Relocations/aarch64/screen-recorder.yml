@@ -1,0 +1,13 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/dalonsogomez/desktop-pilot/recorder-swift/.build/arm64-apple-macosx/debug/screen-recorder'
+relocations:
+  - { offset: 0x88C42, size: 0x8, addend: 0x0, symName: _screen_recorder_main, symObjAddr: 0x0, symBinAddr: 0x100000938, symSize: 0x1BC }
+  - { offset: 0x88C66, size: 0x8, addend: 0x0, symName: '_$s15screen_recorder4argsSaySSGvp', symObjAddr: 0x13E0, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offset: 0x88C74, size: 0x8, addend: 0x0, symName: _screen_recorder_main, symObjAddr: 0x0, symBinAddr: 0x100000938, symSize: 0x1BC }
+  - { offset: 0x88CA8, size: 0x8, addend: 0x0, symName: '_$ss26DefaultStringInterpolationVWOh', symObjAddr: 0x1BC, symBinAddr: 0x100000AF4, symSize: 0x28 }
+  - { offset: 0x88CBC, size: 0x8, addend: 0x0, symName: '_$sSa12_endMutationyyF', symObjAddr: 0x27C, symBinAddr: 0x100000BB4, symSize: 0xC }
+  - { offset: 0x88D05, size: 0x8, addend: 0x0, symName: '_$ss27_finalizeUninitializedArrayySayxGABnlF', symObjAddr: 0x1E4, symBinAddr: 0x100000B1C, symSize: 0x40 }
+  - { offset: 0x88D2F, size: 0x8, addend: 0x0, symName: '_$ss5print_9separator10terminatoryypd_S2StFfA0_', symObjAddr: 0x224, symBinAddr: 0x100000B5C, symSize: 0x2C }
+  - { offset: 0x88D4B, size: 0x8, addend: 0x0, symName: '_$ss5print_9separator10terminatoryypd_S2StFfA1_', symObjAddr: 0x250, symBinAddr: 0x100000B88, symSize: 0x2C }
+...
