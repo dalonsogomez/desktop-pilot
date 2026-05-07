@@ -5,9 +5,14 @@ apagado por Anthropic en marzo de 2026). Permite a un LLM ver la pantalla y
 ejecutar acciones de ratón, teclado, arrastre, shell y AppleScript sobre las
 apps reales del Mac.
 
-**Estado:** Diseño aprobado. Implementación pendiente.
+**Estado:** MVP implementado.
 
 **Spec de diseño:** [docs/superpowers/specs/2026-05-04-desktop-pilot-design.md](docs/superpowers/specs/2026-05-04-desktop-pilot-design.md)
+**Plan de implementación:** [docs/superpowers/plans/2026-05-07-desktop-pilot-mvp.md](docs/superpowers/plans/2026-05-07-desktop-pilot-mvp.md)
+
+## Quick start
+
+See [docs/INSTALL.md](docs/INSTALL.md) for installation, then [docs/USAGE.md](docs/USAGE.md) for usage.
 
 ## Componentes
 

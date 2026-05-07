@@ -1,0 +1,60 @@
+# Usage
+
+## From Claude Code
+
+After install, copy the skill into your Claude Code skills directory:
+
+```bash
+mkdir -p ~/.claude/skills
+cp -r skill/desktop-pilot ~/.claude/skills/
+```
+
+Then in Claude Code:
+
+```
+/desktop-pilot abre Figma y exporta el frame "Hero" como PNG a ~/Desktop
+/dp lista los 10 archivos más grandes en ~/Downloads
+/dp crea un evento en Calendar mañana a las 10:00 con título "Standup"
+```
+
+## Direct HTTP (no Claude Code)
+
+```bash
+# Submit task
+curl -X POST http://localhost:9991/task \
+  -H "Content-Type: application/json" \
+  -d '{"prompt":"open Safari and search for cats"}'
+
+# Poll status
+curl http://localhost:9991/status/<id>
+
+# Get transcript
+curl http://localhost:9991/transcript/<id>
+
+# Abort
+curl -X POST http://localhost:9991/abort/<id>
+```
+
+## Panic key
+
+Press **Esc three times rapidly** (within 800 ms) to abort the current session.
+
+## Sessions
+
+All sessions are stored in:
+
+```
+~/Library/Application Support/DesktopPilot/sessions/<uuid>/
+├── metadata.json
+├── transcript.jsonl
+├── screenshots/NNN-action.png
+├── session.mp4         # video, kept 30 days
+└── timeline.json       # frame ↔ action sync
+```
+
+Video is **not** copied to your Obsidian wiki by default. To archive a session
+fully (with video and all screenshots embedded) use:
+
+```bash
+desktop-pilot archive <session-id> --full
+```
