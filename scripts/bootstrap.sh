@@ -46,6 +46,7 @@ PLIST="$HOME/Library/LaunchAgents/ai.desktop-pilot.bridge.plist"
 mkdir -p "$HOME/Library/LaunchAgents"
 sed -e "s|__INSTALL_DIR__|$INSTALL_DIR|g" \
     -e "s|__HOME__|$HOME|g" \
+    -e "s|__NODE_PATH__|$(which node)|g" \
     "$INSTALL_DIR/scripts/launchd/ai.desktop-pilot.bridge.plist" > "$PLIST"
 echo "Wrote $PLIST"
 

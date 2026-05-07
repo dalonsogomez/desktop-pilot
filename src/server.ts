@@ -7,6 +7,7 @@ import { taskRoute } from "@/routes/task";
 import { statusRoute } from "@/routes/status";
 import { transcriptRoute } from "@/routes/transcript";
 import { abortRoute } from "@/routes/abort";
+import { metricsRoute } from "@/routes/metrics";
 
 export interface ServerOptions {
   baseDir: string;
@@ -26,14 +27,11 @@ export async function buildServer(opts: ServerOptions): Promise<FastifyInstance>
   if (opts.taskRunnerOverride) {
     taskRunner = opts.taskRunnerOverride;
   } else {
-    const recorder = new RecorderController({
-      binaryPath: opts.recorderBinary ?? "/usr/local/bin/screen-recorder",
-      sessionDir: opts.baseDir,
-    });
+    const binaryPath = opts.recorderBinary ?? "/usr/local/bin/screen-recorder";
     taskRunner = new TaskRunner({
       store,
       agentLoop: runAgentLoop,
-      recorder,
+      recorderFactory: (sessionDir) => new RecorderController({ binaryPath, sessionDir }),
       maxActionsPerSecond: opts.maxActionsPerSecond ?? 3,
       timeBudgetMs: opts.timeBudgetMs ?? 5 * 60_000,
     });
@@ -46,6 +44,7 @@ export async function buildServer(opts: ServerOptions): Promise<FastifyInstance>
   await app.register(statusRoute);
   await app.register(transcriptRoute);
   await app.register(abortRoute);
+  await app.register(metricsRoute);
   await app.listen({ port: opts.port, host: "127.0.0.1" });
   return app;
 }

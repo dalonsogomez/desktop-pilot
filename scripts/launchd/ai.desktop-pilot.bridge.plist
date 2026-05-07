@@ -6,7 +6,7 @@
   <string>ai.desktop-pilot.bridge</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/usr/local/bin/node</string>
+    <string>__NODE_PATH__</string>
     <string>__INSTALL_DIR__/dist/server.js</string>
   </array>
   <key>WorkingDirectory</key>

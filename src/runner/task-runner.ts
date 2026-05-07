@@ -13,7 +13,7 @@ export interface RecorderHandle {
 export interface TaskRunnerOptions {
   store: SessionStore;
   agentLoop: (input: AgentLoopInput) => Promise<AgentLoopResult>;
-  recorder: RecorderHandle;
+  recorderFactory: (sessionDir: string) => RecorderHandle;
   maxActionsPerSecond: number;
   timeBudgetMs: number;
 }
@@ -29,7 +29,8 @@ export class TaskRunner {
     const rateLimiter = new RateLimiter({ maxPerSecond: this.opts.maxActionsPerSecond });
     let actionCount = 0;
 
-    await this.opts.recorder.start();
+    const recorder = this.opts.recorderFactory(dir);
+    await recorder.start();
 
     let result: AgentLoopResult;
     try {
@@ -44,7 +45,7 @@ export class TaskRunner {
           }
           await rateLimiter.acquire();
           actionCount++;
-          this.opts.recorder.recordAction(actionCount, undefined);
+          recorder.recordAction(actionCount, undefined);
           await this.opts.store.appendTranscript(sessionId, {
             type: "action",
             index: actionCount,
@@ -61,7 +62,7 @@ export class TaskRunner {
         iterations: actionCount,
       };
     } finally {
-      await this.opts.recorder.stop();
+      await recorder.stop();
     }
 
     const metrics = {

@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeAll, afterAll, vi } from "vitest";
-import { mkdtempSync } from "node:fs";
+import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { buildServer } from "@/server";
@@ -16,7 +16,7 @@ describe("server e2e", () => {
     const taskRunner = new TaskRunner({
       store,
       agentLoop: vi.fn().mockResolvedValue({ completed: true, reason: "end_turn", iterations: 0 }),
-      recorder: { start: vi.fn().mockResolvedValue(undefined), stop: vi.fn().mockResolvedValue(undefined), recordAction: vi.fn() },
+      recorderFactory: () => ({ start: vi.fn().mockResolvedValue(undefined), stop: vi.fn().mockResolvedValue(undefined), recordAction: vi.fn() }),
       maxActionsPerSecond: 3,
       timeBudgetMs: 5_000,
     });
@@ -68,5 +68,32 @@ describe("server e2e", () => {
     const res = await app.inject({ method: "POST", url: `/abort/${id}` });
     expect(res.statusCode).toBe(200);
     expect(JSON.parse(res.body).aborted).toBe(true);
+  });
+
+  it("POST /abort/:id returns 404 for unknown session", async () => {
+    const res = await app.inject({ method: "POST", url: "/abort/00000000-0000-0000-0000-000000000000" });
+    expect(res.statusCode).toBe(404);
+    expect(JSON.parse(res.body).error).toBe("session not found");
+  });
+
+  it("GET /metrics/:id returns 404 before metrics.json exists", async () => {
+    // Create session directly so no agent runs and metrics.json is never written
+    const sess = await app.store.create({ prompt: "metrics not yet" });
+    const res = await app.inject({ method: "GET", url: `/metrics/${sess.id}` });
+    expect(res.statusCode).toBe(404);
+    expect(JSON.parse(res.body).error).toBe("not yet finished");
+  });
+
+  it("GET /metrics/:id returns 200 with metrics after metrics.json is written", async () => {
+    // Create session directly so we control when metrics.json appears
+    const sess = await app.store.create({ prompt: "metrics done" });
+    const dir = app.store.sessionDir(sess.id);
+    const metrics = { sessionId: sess.id, completed: true, reason: "end_turn", iterations: 1, actionCount: 1, durationMs: 100, finishedAt: new Date().toISOString() };
+    writeFileSync(join(dir, "metrics.json"), JSON.stringify(metrics));
+    const res = await app.inject({ method: "GET", url: `/metrics/${sess.id}` });
+    expect(res.statusCode).toBe(200);
+    const body = JSON.parse(res.body);
+    expect(body.completed).toBe(true);
+    expect(body.reason).toBe("end_turn");
   });
 });

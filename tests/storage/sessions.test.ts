@@ -39,4 +39,13 @@ describe("SessionStore", () => {
     expect(list[0].id).toBe(b.id);
     expect(list[1].id).toBe(a.id);
   });
+
+  it("exists() returns true for a created session", async () => {
+    const sess = await store.create({ prompt: "exists check" });
+    expect(await store.exists(sess.id)).toBe(true);
+  });
+
+  it("exists() returns false for a non-existent id", async () => {
+    expect(await store.exists("00000000-0000-0000-0000-000000000000")).toBe(false);
+  });
 });

@@ -19,7 +19,7 @@ describe("TaskRunner", () => {
     const runner = new TaskRunner({
       store,
       agentLoop: vi.fn().mockResolvedValue({ completed: true, reason: "end_turn", iterations: 2 }),
-      recorder: { start: vi.fn().mockResolvedValue(undefined), stop: vi.fn().mockResolvedValue(undefined), recordAction: vi.fn() },
+      recorderFactory: () => ({ start: vi.fn().mockResolvedValue(undefined), stop: vi.fn().mockResolvedValue(undefined), recordAction: vi.fn() }),
       maxActionsPerSecond: 3,
       timeBudgetMs: 60_000,
     });
@@ -37,7 +37,7 @@ describe("TaskRunner", () => {
       agentLoop: () => new Promise((resolve) => {
         setTimeout(() => resolve({ completed: false, reason: "aborted", iterations: 1 }), 100);
       }),
-      recorder: { start: vi.fn().mockResolvedValue(undefined), stop: vi.fn().mockResolvedValue(undefined), recordAction: vi.fn() },
+      recorderFactory: () => ({ start: vi.fn().mockResolvedValue(undefined), stop: vi.fn().mockResolvedValue(undefined), recordAction: vi.fn() }),
       maxActionsPerSecond: 3,
       timeBudgetMs: 60_000,
     });

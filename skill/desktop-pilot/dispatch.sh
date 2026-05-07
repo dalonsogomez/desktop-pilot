@@ -26,17 +26,22 @@ ID=$(curl -fsS -X POST "$API/task" \
 
 echo "Task submitted: $ID"
 
-# Poll status
-STATUS="queued"
+# Poll metrics until session completes
+COMPLETED=""
+REASON=""
 while true; do
-  STATUS=$(curl -fsS "$API/status/$ID" | jq -r '.status // "queued"')
-  case "$STATUS" in
-    completed|failed|aborted) break ;;
-    *) sleep 1 ;;
-  esac
+  RESPONSE=$(curl -s -w "\n%{http_code}" "$API/metrics/$ID")
+  HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+  BODY=$(echo "$RESPONSE" | head -n-1)
+  if [ "$HTTP_CODE" = "200" ]; then
+    COMPLETED=$(echo "$BODY" | jq -r '.completed')
+    REASON=$(echo "$BODY" | jq -r '.reason')
+    break
+  fi
+  sleep 1
 done
 
 # Fetch transcript
 curl -fsS "$API/transcript/$ID" | jq .
 
-echo "Task $ID finished with status: $STATUS"
+echo "Task $ID finished: completed=$COMPLETED reason=$REASON"

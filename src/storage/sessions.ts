@@ -1,4 +1,4 @@
-import { mkdir, writeFile, appendFile, readFile, readdir } from "node:fs/promises";
+import { mkdir, writeFile, appendFile, readFile, readdir, access } from "node:fs/promises";
 import { join } from "node:path";
 import { v4 as uuid } from "uuid";
 
@@ -44,5 +44,14 @@ export class SessionStore {
 
   sessionDir(id: string): string {
     return join(this.baseDir, id);
+  }
+
+  async exists(id: string): Promise<boolean> {
+    try {
+      await access(join(this.baseDir, id, "metadata.json"));
+      return true;
+    } catch {
+      return false;
+    }
   }
 }
