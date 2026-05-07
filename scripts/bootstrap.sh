@@ -42,12 +42,28 @@ for f in config.yaml allowlist.yaml applescript-allowlist.yaml; do
   fi
 done
 
-# Generate launchd plist with substitutions
+# Generate launchd plist with substitutions.
+#
+# Resolve real node binary path: `which node` returns the nvm shell function
+# on systems with nvm — use process.execPath to get the actual binary path,
+# with fallback to Homebrew's known stable symlinks if Node isn't yet on PATH.
+NODE_PATH=$(node -e "console.log(process.execPath)" 2>/dev/null || true)
+if [ -z "$NODE_PATH" ] && [ -x "/opt/homebrew/bin/node" ]; then
+  NODE_PATH="/opt/homebrew/bin/node"
+elif [ -z "$NODE_PATH" ] && [ -x "/usr/local/bin/node" ]; then
+  NODE_PATH="/usr/local/bin/node"
+fi
+if [ -z "$NODE_PATH" ]; then
+  echo "ERROR: cannot resolve node binary path. Install via Homebrew (brew install node) and re-run." >&2
+  exit 1
+fi
+echo "Using node binary: $NODE_PATH"
+
 PLIST="$HOME/Library/LaunchAgents/ai.desktop-pilot.bridge.plist"
 mkdir -p "$HOME/Library/LaunchAgents"
 sed -e "s|__INSTALL_DIR__|$INSTALL_DIR|g" \
     -e "s|__HOME__|$HOME|g" \
-    -e "s|__NODE_PATH__|$(which node)|g" \
+    -e "s|__NODE_PATH__|$NODE_PATH|g" \
     "$INSTALL_DIR/scripts/launchd/ai.desktop-pilot.bridge.plist" > "$PLIST"
 echo "Wrote $PLIST"
 
